@@ -1,7 +1,9 @@
 import { Router, useLocation } from 'wouter'
+import { GameAuth } from './components/GameAuth'
 import { CoffeeGame } from './components/coffee/CoffeeGame'
 import { CoffeeIntro } from './components/coffee/CoffeeIntro'
 import { IceCreamScreen } from './components/coffee/IceCreamScreen'
+import { LatestUpdatesPage } from './pages/LatestUpdatesPage'
 
 function AppContent() {
   const [location, setLocation] = useLocation()
@@ -12,6 +14,14 @@ function AppContent() {
 
   if (location === '/ice-cream') {
     return <IceCreamScreen onBack={() => setLocation('/')} />
+  }
+
+  if (location === '/register') {
+    return <GameAuth onBack={() => setLocation('/')} />
+  }
+
+  if (location === '/updates') {
+    return <LatestUpdatesPage />
   }
 
   return <CoffeeIntro onPlay={() => setLocation('/game')} />

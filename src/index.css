@@ -101,6 +101,20 @@ button { font: inherit; cursor: pointer; }
 .coffee-result h1 { margin: 5px; font: 700 48px/1 'Playfair Display', serif; }
 .final-score { margin: 30px 0; padding: 20px; background: #302e28; }.final-score span { display: block; color: #999a94; font-size: 9px; text-transform: uppercase; }.final-score b { color: #f0a26d; font-size: 42px; }
 .coffee-result .exit-link { margin-top: 8px; color: #76695e; background: transparent; }
+.auth-screen, .updates-screen { min-height: 100vh; display: grid; place-items: center; padding: 28px; background: #f0e3d0; }
+.auth-card, .updates-panel { width: min(460px, 100%); padding: 28px; color: #3d3028; background: #fff9ee; border: 1px solid #dfc7ad; border-radius: 8px; box-shadow: 0 24px 50px #694a352e; }
+.auth-card h1, .updates-panel h1 { margin: 8px 0 10px; font: 700 42px/1 'Playfair Display', serif; }
+.auth-intro { margin: 0 0 18px; color: #76695e; line-height: 1.5; }
+.auth-form { display: grid; gap: 12px; }
+.auth-form label { display: grid; gap: 6px; color: #6e5e51; font-size: 11px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+.auth-form input { width: 100%; padding: 12px; color: #2e2924; background: #fff; border: 1px solid #d8c4ae; border-radius: 4px; font: inherit; }
+.auth-form button, .google-button { width: 100%; padding: 13px 16px; color: #fff; background: #282620; border: 0; border-radius: 4px; font-weight: 800; }
+.auth-divider { margin: 16px 0; text-align: center; color: #9b8a7a; font-size: 10px; font-weight: 800; letter-spacing: .16em; }
+.google-button { color: #3d3028; background: #fff; border: 1px solid #d8c4ae; }
+.google-mark { display: inline-grid; place-items: center; width: 22px; height: 22px; margin-right: 8px; color: #c85835; background: #f5eadb; border-radius: 50%; }
+.auth-message { padding: 10px; color: #70462d; background: #f7e6d5; border-radius: 4px; }
+.auth-switch { width: 100%; margin-top: 10px; color: #8b5e45; background: transparent; border: 0; font-weight: 800; }
+.updates-panel ul { display: grid; gap: 12px; margin: 18px 0; padding-left: 20px; color: #6e5e51; line-height: 1.5; }
 @keyframes pulse { to { opacity: .6; transform: scale(.98); } }
 @keyframes boil { to { opacity: 0; transform: translateY(-34px) scale(1.7); } }
 
