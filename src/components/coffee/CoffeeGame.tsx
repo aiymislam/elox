@@ -5,12 +5,15 @@ import type { Ingredient, Order, Station } from '../../lib/coffeeGame'
 import { BrewStation } from './BrewStation'
 import { OrderTicket } from './OrderTicket'
 
+type ProductMode = 'coffee' | 'iceCream'
+
 export function CoffeeGame({ onExit }: { onExit: () => void }) {
   const [orders, setOrders] = useState<Order[]>(() => [makeOrder(), makeOrder(), makeOrder()])
   const [stations, setStations] = useState<Station[]>(() => [makeStation(), makeStation(), makeStation()])
   const [selected, setSelected] = useState(0)
   const [score, setScore] = useState(0)
   const [served, setServed] = useState(0)
+  const [productMode, setProductMode] = useState<ProductMode>('coffee')
   const [now, setNow] = useState(Date.now())
   const [endAt] = useState(() => Date.now() + GAME_SECONDS * 1000)
   const [message, setMessage] = useState('Build an order, then start the brewer.')
@@ -52,6 +55,10 @@ export function CoffeeGame({ onExit }: { onExit: () => void }) {
   }
   const clearStation = (index: number) => setStations((current) => current.map((station, item) => item === index ? makeStation() : station))
   const brew = (index: number) => {
+    const nextMode = productMode === 'coffee' ? 'iceCream' : 'coffee'
+    setProductMode(nextMode)
+    setMessage(nextMode === 'iceCream' ? 'Ice cream is ready! Press MAKE again for coffee.' : 'Coffee mode is back. Build a ticket to brew.')
+    if (nextMode === 'iceCream') return
     const station = stations[index]
     const order = orders.find((item) => sameRecipe(item, station.recipe))
     if (!order) { setMessage('No ticket matches that drink. Check the recipe.'); return }
@@ -74,12 +81,12 @@ export function CoffeeGame({ onExit }: { onExit: () => void }) {
     <div className="target-bar"><span style={{ width: `${progress}%` }} /><p>{served} / {TARGET_ORDERS} orders served</p></div>
     <section className="cafe-counter">
       <div className="ticket-rail">{orders.map((order, index) => <OrderTicket key={order.id} order={order} number={served + index + 1} />)}</div>
-      <div className="ice-cream-highlight">
-        <p>Ice cream mode</p>
-        <span>🍦 Vanilla · 🍓 Berry · 🍫 Chocolate</span>
+      <div className={`ice-cream-highlight ${productMode === 'iceCream' ? 'active' : ''}`}>
+        <p>{productMode === 'iceCream' ? 'Ice cream mode' : 'Coffee mode'}</p>
+        <span>{productMode === 'iceCream' ? '🍦 Vanilla · 🍓 Berry · 🍫 Chocolate' : '☕ Espresso · 🥛 Milk · ✦ Sugar'}</span>
       </div>
       <div className="shelf"><div className="ingredient-jars">{(['bean', 'milk', 'sugar'] as Ingredient[]).map((item) => <button key={item} draggable onDragStart={(event) => dragIngredient(event, item)} onClick={() => addIngredient(item)}><i className={item}>{ingredientIcon[item]}</i><b>{ingredientName[item]}</b><small>drag or tap</small></button>)}</div></div>
-      <div className="stations">{stations.map((station, index) => <BrewStation key={index} station={station} now={now} index={index} selected={selected === index} onSelect={() => setSelected(index)} onBrew={() => brew(index)} onServe={() => serve(index)} onTrash={() => clearStation(index)} onDropIngredient={(ingredient) => addIngredient(ingredient, index)} />)}</div>
+      <div className="stations">{stations.map((station, index) => <BrewStation key={index} station={station} now={now} index={index} selected={selected === index} productMode={productMode} onSelect={() => setSelected(index)} onMake={() => brew(index)} onServe={() => serve(index)} onTrash={() => clearStation(index)} onDropIngredient={(ingredient) => addIngredient(ingredient, index)} />)}</div>
     </section>
     <footer><button onClick={() => clearStation(selected)}>♲ CLEAR CUP</button><p>{message}</p><div className="current-mix">SELECTED CUP {selected + 1} · {Object.values(stations[selected].recipe).reduce((sum, count) => sum + count, 0) ? Object.entries(stations[selected].recipe).filter(([, count]) => count).map(([item, count]) => `${count} ${item}`).join(' · ') : 'empty'}</div></footer>
   </main>
