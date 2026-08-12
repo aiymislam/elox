@@ -1,4 +1,4 @@
-import { Route, Router, useLocation } from 'wouter'
+import { Router, useLocation } from 'wouter'
 import { CoffeeGame } from './components/coffee/CoffeeGame'
 import { CoffeeIntro } from './components/coffee/CoffeeIntro'
 import { IceCreamScreen } from './components/coffee/IceCreamScreen'
