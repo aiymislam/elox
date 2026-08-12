@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react';
-import { isSupabaseConfigured, supabase } from '../lib/supabase';
-import { SupabaseSetupMessage } from './SupabaseSetupMessage';
+import { supabase } from '../lib/supabase';
 
 // Пример работы с базой: читаем, добавляем и удаляем свои записи.
-// Таблица `entries` создаётся миграцией в supabase/migrations/. Переделай это под свою идею:
+// Таблица `entries` создаётся в supabase/schema.sql. Переделай это под свою идею:
 // вопросы для квиза, привычки, места, карточки — что угодно.
 type Entry = {
   id: string;
@@ -26,10 +25,8 @@ export function Entries({ userEmail }: { userEmail: string }) {
   }
 
   useEffect(() => {
-    if (isSupabaseConfigured) void load();
+    load();
   }, []);
-
-  if (!isSupabaseConfigured) return <SupabaseSetupMessage />;
 
   async function add(e: React.FormEvent) {
     e.preventDefault();

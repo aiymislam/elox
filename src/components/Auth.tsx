@@ -1,6 +1,5 @@
 import { useState } from 'react';
-import { isSupabaseConfigured, supabase } from '../lib/supabase';
-import { SupabaseSetupMessage } from './SupabaseSetupMessage';
+import { supabase } from '../lib/supabase';
 
 // Вход и регистрация по email + паролю. Это пример — Codex поможет улучшить (Google-вход и т.д.).
 export function Auth() {
@@ -10,8 +9,6 @@ export function Auth() {
   const [message, setMessage] = useState('');
   const [busy, setBusy] = useState(false);
 
-  if (!isSupabaseConfigured) return <SupabaseSetupMessage />;
-
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setBusy(true);
@@ -19,11 +16,7 @@ export function Auth() {
     try {
       const fn =
         mode === 'signup'
-          ? supabase.auth.signUp({
-              email,
-              password,
-              options: { emailRedirectTo: window.location.origin },
-            })
+          ? supabase.auth.signUp({ email, password })
           : supabase.auth.signInWithPassword({ email, password });
       const { error } = await fn;
       if (error) setMessage(error.message);

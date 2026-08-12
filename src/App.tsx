@@ -1,13 +1,22 @@
-import { Route, Switch } from 'wouter';
-import { HomePage } from './pages/HomePage';
-import { NotFoundPage } from './pages/NotFoundPage';
+import { Route, Router, useLocation } from 'wouter'
+import { CoffeeGame } from './components/coffee/CoffeeGame'
+import { CoffeeIntro } from './components/coffee/CoffeeIntro'
+import { IceCreamScreen } from './components/coffee/IceCreamScreen'
 
-// Здесь живут только маршруты. Сами экраны складывай в src/pages/.
+function AppContent() {
+  const [location, setLocation] = useLocation()
+
+  if (location === '/game') {
+    return <CoffeeGame onExit={() => setLocation('/')} />
+  }
+
+  if (location === '/ice-cream') {
+    return <IceCreamScreen onBack={() => setLocation('/')} />
+  }
+
+  return <CoffeeIntro onPlay={() => setLocation('/game')} />
+}
+
 export default function App() {
-  return (
-    <Switch>
-      <Route path="/" component={HomePage} />
-      <Route component={NotFoundPage} />
-    </Switch>
-  );
+  return <Router><AppContent /></Router>
 }
