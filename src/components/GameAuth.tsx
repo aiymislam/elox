@@ -6,9 +6,10 @@ type Mode = 'signup' | 'signin'
 type Props = {
   onBack: () => void
   onGuest: () => void
+  onSuccess: () => void
 }
 
-export function GameAuth({ onBack, onGuest }: Props) {
+export function GameAuth({ onBack, onGuest, onSuccess }: Props) {
   const [mode, setMode] = useState<Mode>('signup')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -25,6 +26,8 @@ export function GameAuth({ onBack, onGuest }: Props) {
     if (result.error) setMessage(result.error.message)
     else if (mode === 'signup' && !result.data.session) {
       setMessage('Account created. Check your email to confirm it, then sign in.')
+    } else {
+      onSuccess()
     }
     setBusy(false)
   }
@@ -39,7 +42,7 @@ export function GameAuth({ onBack, onGuest }: Props) {
     setMessage('')
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
-      options: { redirectTo: window.location.origin },
+      options: { redirectTo: `${window.location.origin}/game` },
     })
     if (error) {
       setMessage(error.message)

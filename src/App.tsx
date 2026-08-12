@@ -17,7 +17,7 @@ function AppContent() {
   }
 
   if (location === '/register') {
-    return <GameAuth onBack={() => setLocation('/')} onGuest={() => setLocation('/game')} />
+    return <GameAuth onBack={() => setLocation('/')} onGuest={() => setLocation('/game')} onSuccess={() => setLocation('/game')} />
   }
 
   if (location === '/updates') {
