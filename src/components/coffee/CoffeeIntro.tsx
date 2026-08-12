@@ -1,8 +1,6 @@
 import { Link } from 'wouter'
 
-type Props = { onPlay: () => void }
-
-export function CoffeeIntro({ onPlay }: Props) {
+export function CoffeeIntro() {
   return <main className="coffee-intro">
     <div className="sun-disc" />
     <section className="intro-copy">
@@ -11,7 +9,6 @@ export function CoffeeIntro({ onPlay }: Props) {
       <p>Read the tickets. Build each drink. Watch every cup—serve at the perfect moment before it spills. In this café, even the machines can dream of ice cream.</p>
       <div className="intro-actions">
         <Link href="/register" className="intro-link">Register / sign in <span>→</span></Link>
-        <button onClick={onPlay}>Open the café <span>→</span></button>
         <Link href="/ice-cream" className="intro-link">Open the ice cream bar <span>→</span></Link>
         <Link href="/updates" className="intro-link">Latest updates <span>→</span></Link>
       </div>

@@ -24,7 +24,7 @@ function AppContent() {
     return <LatestUpdatesPage />
   }
 
-  return <CoffeeIntro onPlay={() => setLocation('/game')} />
+  return <CoffeeIntro />
 }
 
 export default function App() {
