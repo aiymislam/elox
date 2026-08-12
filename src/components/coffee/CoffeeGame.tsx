@@ -72,6 +72,11 @@ export function CoffeeGame({ onExit }: { onExit: () => void }) {
     setScore((current) => current + points); setServed((current) => current + 1)
     setMessage(level >= .82 ? `Perfect timing! +${points}` : `A little early. +${points}`); clearStation(index)
   }
+  const toggleProductMode = () => {
+    const nextMode = productMode === 'coffee' ? 'iceCream' : 'coffee'
+    setProductMode(nextMode)
+    setMessage(nextMode === 'iceCream' ? 'Ice cream mode is on.' : 'Coffee mode is on.')
+  }
   const progress = useMemo(() => Math.min(100, served / TARGET_ORDERS * 100), [served])
 
   if (finished) return <main className="coffee-result"><section><p>Shift complete</p><h1>{served >= TARGET_ORDERS ? 'Brilliant service!' : 'Closing time'}</h1><div className="final-score"><span>Score</span><b>{finalScore.toLocaleString()}</b></div><p>You served {served} of {TARGET_ORDERS} orders.</p><button onClick={() => window.location.reload()}>Play again</button><button className="exit-link" onClick={onExit}>Back to menu</button></section></main>
@@ -81,10 +86,10 @@ export function CoffeeGame({ onExit }: { onExit: () => void }) {
     <div className="target-bar"><span style={{ width: `${progress}%` }} /><p>{served} / {TARGET_ORDERS} orders served</p></div>
     <section className="cafe-counter">
       <div className="ticket-rail">{orders.map((order, index) => <OrderTicket key={order.id} order={order} number={served + index + 1} />)}</div>
-      <div className={`ice-cream-highlight ${productMode === 'iceCream' ? 'active' : ''}`}>
+      <button className={`ice-cream-highlight ${productMode === 'iceCream' ? 'active' : ''}`} onClick={toggleProductMode}>
         <p>{productMode === 'iceCream' ? 'Ice cream mode' : 'Coffee mode'}</p>
         <span>{productMode === 'iceCream' ? '🍦 Vanilla · 🍓 Berry · 🍫 Chocolate' : '☕ Espresso · 🥛 Milk · ✦ Sugar'}</span>
-      </div>
+      </button>
       <div className="shelf"><div className="ingredient-jars">{(['bean', 'milk', 'sugar'] as Ingredient[]).map((item) => <button key={item} draggable onDragStart={(event) => dragIngredient(event, item)} onClick={() => addIngredient(item)}><i className={item}>{ingredientIcon[item]}</i><b>{ingredientName[item]}</b><small>drag or tap</small></button>)}</div></div>
       <div className="stations">{stations.map((station, index) => <BrewStation key={index} station={station} now={now} index={index} selected={selected === index} productMode={productMode} onSelect={() => setSelected(index)} onMake={() => brew(index)} onServe={() => serve(index)} onTrash={() => clearStation(index)} onDropIngredient={(ingredient) => addIngredient(ingredient, index)} />)}</div>
     </section>
