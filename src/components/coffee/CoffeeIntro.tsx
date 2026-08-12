@@ -10,8 +10,8 @@ export function CoffeeIntro({ onPlay }: Props) {
       <h1>Morning<br/><em>Rush</em></h1>
       <p>Read the tickets. Build each drink. Watch every cup—serve at the perfect moment before it spills. In this café, even the machines can dream of ice cream.</p>
       <div className="intro-actions">
-        <button onClick={onPlay}>Open the café <span>→</span></button>
         <Link href="/register" className="intro-link">Register / sign in <span>→</span></Link>
+        <button onClick={onPlay}>Open the café <span>→</span></button>
         <Link href="/ice-cream" className="intro-link">Open the ice cream bar <span>→</span></Link>
         <Link href="/updates" className="intro-link">Latest updates <span>→</span></Link>
       </div>
