@@ -114,6 +114,7 @@ button { font: inherit; cursor: pointer; }
 .google-mark { display: inline-grid; place-items: center; width: 22px; height: 22px; margin-right: 8px; color: #c85835; background: #f5eadb; border-radius: 50%; }
 .auth-message { padding: 10px; color: #70462d; background: #f7e6d5; border-radius: 4px; }
 .auth-switch { width: 100%; margin-top: 10px; color: #8b5e45; background: transparent; border: 0; font-weight: 800; }
+.auth-switch.guest-play { padding: 12px; color: #fff; background: #b75f3b; border-radius: 4px; }
 .updates-panel ul { display: grid; gap: 12px; margin: 18px 0; padding-left: 20px; color: #6e5e51; line-height: 1.5; }
 @keyframes pulse { to { opacity: .6; transform: scale(.98); } }
 @keyframes boil { to { opacity: 0; transform: translateY(-34px) scale(1.7); } }
