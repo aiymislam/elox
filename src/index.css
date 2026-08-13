@@ -75,11 +75,11 @@ button { font: inherit; cursor: pointer; }
 .ice-cream-cone::before { position: absolute; right: 12px; bottom: 0; left: 12px; height: 76px; z-index: 3; background: linear-gradient(135deg, #f4c47f, #c98943); clip-path: polygon(0 0, 100% 0, 56% 100%, 44% 100%); box-shadow: inset -9px 0 #b87535; content: ''; }
 .ice-cream-cone::after { position: absolute; right: 22px; bottom: 8px; left: 22px; height: 58px; z-index: 4; background-image: linear-gradient(45deg, transparent 45%, #9e632c 46% 54%, transparent 55%), linear-gradient(-45deg, transparent 45%, #9e632c 46% 54%, transparent 55%); background-size: 16px 16px; opacity: .5; content: ''; }
 .ice-cream-scoop { position: absolute; right: 4px; bottom: 58px; left: 4px; height: 42px; z-index: 2; }
-.ice-cream-scoop i { position: absolute; bottom: 0; width: 30px; height: 30px; border-radius: 50%; box-shadow: inset -5px -4px #00000014; }
+.ice-cream-scoop i { position: absolute; bottom: 0; width: 30px; height: 30px; border-radius: 50%; box-shadow: inset -5px -4px #00000014; animation: scoop-drop .48s cubic-bezier(.2, 1.5, .5, 1) both; }
 .ice-cream-scoop i:nth-child(1) { left: 13px; }
-.ice-cream-scoop i:nth-child(2) { left: 28px; bottom: 7px; }
-.ice-cream-scoop i:nth-child(3) { left: 40px; }
-.ice-cream-scoop i:nth-child(4) { left: 22px; bottom: 20px; }
+.ice-cream-scoop i:nth-child(2) { left: 28px; bottom: 7px; animation-delay: .08s; }
+.ice-cream-scoop i:nth-child(3) { left: 40px; animation-delay: .16s; }
+.ice-cream-scoop i:nth-child(4) { left: 22px; bottom: 20px; animation-delay: .24s; }
 .ice-cream-scoop i.vanilla { background: #fff2df; }
 .ice-cream-scoop i.strawberry { background: #f7a8bd; }
 .ice-cream-scoop i.chocolate { background: #7b4a32; }
@@ -121,6 +121,11 @@ button { font: inherit; cursor: pointer; }
 .updates-panel ul { display: grid; gap: 12px; margin: 18px 0; padding-left: 20px; color: #6e5e51; line-height: 1.5; }
 @keyframes pulse { to { opacity: .6; transform: scale(.98); } }
 @keyframes boil { to { opacity: 0; transform: translateY(-34px) scale(1.7); } }
+@keyframes scoop-drop {
+  0% { opacity: 0; transform: translateY(-42px) scale(.72); }
+  70% { opacity: 1; transform: translateY(4px) scale(1.08); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
 
 @media (max-width: 650px) {
   .coffee-intro { display: block; padding: 60px 24px; }.sun-disc { top: 40%; right: -20%; width: 90vw; }.intro-copy h1 { font-size: 78px; }.intro-actions { flex-direction: column; }.intro-cup { position: absolute; right: 7%; bottom: -4%; width: 155px; height: 190px; }
