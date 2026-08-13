@@ -2,17 +2,16 @@ import type { DragEvent } from 'react'
 import { fillLevel, ingredientIcon } from '../../lib/coffeeGame'
 import type { Ingredient, Station } from '../../lib/coffeeGame'
 
-type ProductMode = 'coffee' | 'iceCream'
-type Props = { station: Station; now: number; index: number; selected: boolean; productMode: ProductMode; onSelect: () => void; onMake: () => void; onServe: () => void; onTrash: () => void; onDropIngredient: (ingredient: Ingredient) => void }
+type Props = { station: Station; now: number; index: number; selected: boolean; onSelect: () => void; onMake: () => void; onServe: () => void; onTrash: () => void; onDropIngredient: (ingredient: Ingredient) => void }
 
 const ingredients: Ingredient[] = ['vanilla', 'strawberry', 'chocolate']
 const isIngredient = (value: string): value is Ingredient => ingredients.includes(value as Ingredient)
 
-export function BrewStation({ station, now, index, selected, productMode, onSelect, onMake, onServe, onTrash, onDropIngredient }: Props) {
+export function BrewStation({ station, now, index, selected, onSelect, onMake, onServe, onTrash, onDropIngredient }: Props) {
   const level = fillLevel(station, now)
   const ready = station.status === 'brewing' && level >= .82 && level <= 1.08
   const hasIngredients = Object.values(station.recipe).some(Boolean)
-  const showFinishedScoops = productMode === 'iceCream' && ready && hasIngredients
+  const showFinishedScoops = hasIngredients && station.status !== 'empty' && level >= .82
   const scoops = ingredients.flatMap((item) => Array.from({ length: station.recipe[item] }, () => item))
   const dropIngredient = (event: DragEvent<HTMLElement>) => {
     event.preventDefault()
