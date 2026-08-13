@@ -12,6 +12,7 @@ export function BrewStation({ station, now, index, selected, productMode, onSele
   const level = fillLevel(station, now)
   const ready = station.status === 'brewing' && level >= .82 && level <= 1.08
   const hasIngredients = Object.values(station.recipe).some(Boolean)
+  const showFinishedScoops = productMode === 'iceCream' && ready && hasIngredients
   const scoops = ingredients.flatMap((item) => Array.from({ length: station.recipe[item] }, () => item))
   const dropIngredient = (event: DragEvent<HTMLElement>) => {
     event.preventDefault()
@@ -22,7 +23,7 @@ export function BrewStation({ station, now, index, selected, productMode, onSele
     <div className="machine-top"><span>0{index + 1}</span><i /></div>
     <div className="spout" />
     <div className="ice-cream-cone">
-      {productMode === 'iceCream' && hasIngredients && <div className="ice-cream-scoop">
+      {showFinishedScoops && <div className="ice-cream-scoop">
         {scoops.map((item, scoopIndex) => <i className={item} key={`${item}-${scoopIndex}`} />)}
       </div>}
       <div className="coffee-fill" style={{ height: `${Math.min(level, 1) * 78}%` }} />
