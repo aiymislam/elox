@@ -22,7 +22,7 @@ export function BrewStation({ station, now, index, selected, onSelect, onMake, o
     <div className="machine-top"><span>0{index + 1}</span><i /></div>
     <div className="spout" />
     <div className="ice-cream-cone">
-      {showFinishedScoops && <div className="ice-cream-scoop">
+      {showFinishedScoops && <div className={`ice-cream-scoop scoop-count-${scoops.length}`}>
         {scoops.map((item, scoopIndex) => <i className={item} key={`${item}-${scoopIndex}`} />)}
       </div>}
       <div className="coffee-fill" style={{ height: `${Math.min(level, 1) * 78}%` }} />

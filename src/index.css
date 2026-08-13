@@ -80,6 +80,7 @@ button { font: inherit; cursor: pointer; }
 .ice-cream-scoop i:nth-child(2) { left: 28px; bottom: 7px; animation-delay: .08s; }
 .ice-cream-scoop i:nth-child(3) { left: 40px; animation-delay: .16s; }
 .ice-cream-scoop i:nth-child(4) { left: 22px; bottom: 20px; animation-delay: .24s; }
+.ice-cream-scoop.scoop-count-1 i:nth-child(1) { left: 18px; bottom: 3px; width: 42px; height: 42px; }
 .ice-cream-scoop i.vanilla { background: #fff2df; }
 .ice-cream-scoop i.strawberry { background: #f7a8bd; }
 .ice-cream-scoop i.chocolate { background: #7b4a32; }
