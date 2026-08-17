@@ -51,6 +51,8 @@ const gameText = {
     tutorial: 'Tutorial',
     tutorialNext: 'Next',
     tutorialSkip: 'Skip',
+    tutorialDoneTitle: 'Yay, you did it!',
+    tutorialDoneText: 'Now keep serving orders on your own.',
     hintOneTitle: 'Read your ticket',
     hintOneText: 'Match the order colors to the ingredients on the left.',
     hintTwoTitle: 'Build the mix',
@@ -88,6 +90,8 @@ const gameText = {
     tutorial: 'Нұсқаулық',
     tutorialNext: 'Келесі',
     tutorialSkip: 'Өткізу',
+    tutorialDoneTitle: 'Ура, сен жасадың!',
+    tutorialDoneText: 'Енді тапсырыстарды өзің жалғастыр.',
     hintOneTitle: 'Тапсырысты оқы',
     hintOneText: 'Түс пен ингредиенттерді тапсырыс бойынша сәйкестендір.',
     hintTwoTitle: 'Қоспаны жаса',
@@ -125,6 +129,8 @@ const gameText = {
     tutorial: 'Обучение',
     tutorialNext: 'Дальше',
     tutorialSkip: 'Пропустить',
+    tutorialDoneTitle: 'Ура, получилось!',
+    tutorialDoneText: 'Теперь продолжай обслуживать заказы сам.',
     hintOneTitle: 'Прочитай заказ',
     hintOneText: 'Сравни цвета в заказе с ингредиентами слева.',
     hintTwoTitle: 'Собери смесь',
@@ -145,6 +151,7 @@ export function CoffeeGame({ onExit, language, onLanguageChange }: Props) {
   const [endAt] = useState(() => Date.now() + GAME_SECONDS * 1000)
   const [tutorialStep, setTutorialStep] = useState(0)
   const [tutorialVisible, setTutorialVisible] = useState(true)
+  const [tutorialDone, setTutorialDone] = useState(false)
   const text = gameText[language]
   const [message, setMessage] = useState(text.defaultMessage)
   const finished = now >= endAt || served >= TARGET_ORDERS
@@ -211,10 +218,18 @@ export function CoffeeGame({ onExit, language, onLanguageChange }: Props) {
     { title: text.hintThreeTitle, text: text.hintThreeText, action: 'serve' },
   ]
   const currentTutorial = tutorialSteps[tutorialStep] ?? tutorialSteps[0]
-  const tutorialFocus = tutorialVisible ? currentTutorial.action : null
+  const tutorialFocus = tutorialVisible && !tutorialDone ? currentTutorial.action : null
+  const finishTutorial = () => {
+    setTutorialDone(true)
+    window.setTimeout(() => setTutorialVisible(false), 1500)
+  }
 
   useEffect(() => {
     if (!tutorialVisible) return
+    if (tutorialStep === 2 && served > 0) {
+      finishTutorial()
+      return
+    }
     if (tutorialStep === 0 && served > 0) setTutorialStep(1)
     if (tutorialStep === 1 && stations.some((station) => station.status === 'brewing')) setTutorialStep(2)
   }, [served, stations, tutorialStep, tutorialVisible])
@@ -233,12 +248,12 @@ export function CoffeeGame({ onExit, language, onLanguageChange }: Props) {
     {tutorialVisible && (
       <div className="game-tutorial" data-step={currentTutorial.action}>
         <div className="tutorial-label">{text.tutorial}</div>
-        <h3>{currentTutorial.title}</h3>
-        <p>{currentTutorial.text}</p>
-        <div className="tutorial-actions">
-          <button type="button" onClick={() => setTutorialStep((current) => Math.min(current + 1, tutorialSteps.length - 1))}>{text.tutorialNext}</button>
+        <h3>{tutorialDone ? text.tutorialDoneTitle : currentTutorial.title}</h3>
+        <p>{tutorialDone ? text.tutorialDoneText : currentTutorial.text}</p>
+        {!tutorialDone && <div className="tutorial-actions">
+          <button type="button" onClick={() => tutorialStep === tutorialSteps.length - 1 ? finishTutorial() : setTutorialStep((current) => current + 1)}>{text.tutorialNext}</button>
           <button type="button" className="tutorial-skip" onClick={() => setTutorialVisible(false)}>{text.tutorialSkip}</button>
-        </div>
+        </div>}
       </div>
     )}
     <label className="intro-language" style={{ marginLeft: 'auto', marginBottom: '12px' }}>
