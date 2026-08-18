@@ -98,9 +98,11 @@ button { font: inherit; cursor: pointer; }
 .order-ticket section { padding: 8px 8px 15px; }
 .order-ticket p { display: grid; grid-template-columns: 26px 1fr; align-items: center; margin: 7px 0; }
 .order-ticket p > i { display: grid; place-items: center; width: 22px; height: 22px; color: white; background: #684231; border-radius: 50%; font-style: normal; font-size: 10px; }
+.order-ticket p.vanilla > i { color: #8d683d; background: #fff1d5; border: 1px solid #dec6a4; }
 .order-ticket p.strawberry > i { color: white; background: #df7793; }
 .order-ticket p.chocolate > i { color: white; background: #7b4a32; }
 .order-ticket p span { display: flex; gap: 7px; padding-left: 8px; color: #684231; font-size: 13px; }
+.order-ticket p.vanilla span { color: #c29458; }
 .order-ticket p.strawberry span { color: #c75d7d; }.order-ticket p.chocolate span { color: #7b4a32; }
 .shelf { height: 112px; display: grid; place-items: center; background: linear-gradient(100deg, #decab0, #f3e7d4, #d8c2a7); border-bottom: 10px solid #79563f; }
 .ingredient-jars { display: flex; justify-content: center; gap: clamp(25px, 7vw, 90px); }
