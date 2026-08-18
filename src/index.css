@@ -190,9 +190,14 @@ button { font: inherit; cursor: pointer; }
 @media (max-width: 650px) {
   .coffee-intro { display: block; padding: 60px 24px; }.sun-disc { top: 40%; right: -20%; width: 90vw; }.intro-language { flex-wrap: wrap; }.intro-copy h1 { font-size: 78px; }.intro-actions { flex-direction: column; }.intro-panels { grid-template-columns: 1fr; }.intro-cup { position: absolute; right: 7%; bottom: -4%; width: 155px; height: 190px; }
   .scoop-stage { grid-template-columns: 1fr; }.scoop-display { min-height: 170px; }
-  .coffee-game > header { grid-template-columns: auto 1fr; padding: 0 10px; }.brand { display: none; }.game-stats { gap: 15px; }.ticket-rail { gap: 7px; padding-inline: 7px; }.order-ticket { width: 31vw; min-height: 140px; padding: 8px; }.order-ticket section { padding-inline: 0; }
-  .ingredient-jars { gap: 20px; }.ingredient-jars button { width: 65px; }.ingredient-jars i { width: 46px; height: 48px; }
-  .stations { gap: 5px; padding: 24px 5px; }.brew-station { width: 32vw; height: 250px; padding-inline: 7px; }.machine-top { width: calc(100% + 14px); }.ice-cream-cone { width: 60px; height: 95px; }
-  .coffee-game > footer { grid-template-columns: 1fr 2fr; height: 70px; padding: 0 12px; }.current-mix { display: none; }.coffee-game footer p { font-size: 10px; }
+  .coffee-game { padding-bottom: 118px; overflow-x: hidden; }.coffee-game > header { height: auto; min-height: 70px; grid-template-columns: auto 1fr; gap: 8px; padding: 10px 12px; }.brand { display: none; }.game-stats { gap: 12px; }.game-stats span { font-size: 7px; }.game-stats b { font-size: 15px; }
+  .game-tutorial { width: calc(100% - 20px); margin-top: 10px; padding: 12px; border-radius: 8px; }.game-tutorial h3 { font-size: 20px; }.tutorial-actions { justify-content: stretch; }.tutorial-actions button { flex: 1; border-radius: 4px; }
+  .coffee-game > .intro-language { width: calc(100% - 24px); justify-content: space-between; margin: 10px 12px 12px !important; }.coffee-game > .intro-language select { max-width: 170px; }
+  .target-bar p { white-space: normal; line-height: 1.25; }
+  .cafe-counter { min-height: auto; background: linear-gradient(#aa765a 0 185px, #744a35 185px 199px, #e8dac6 199px 420px, #80614b 420px 430px, #b38869 430px); }
+  .ticket-rail { justify-content: flex-start; gap: 10px; min-height: 174px; overflow-x: auto; padding: 14px 12px 16px; scroll-snap-type: x mandatory; }.order-ticket { flex: 0 0 150px; width: 150px; min-height: 136px; padding: 9px; scroll-snap-align: start; }.order-ticket section { padding: 7px 2px 14px; }.order-ticket p { grid-template-columns: 24px 1fr; }
+  .shelf { height: auto; min-height: 106px; padding: 14px 8px; }.ingredient-jars { width: 100%; justify-content: space-around; gap: 8px; }.ingredient-jars button { width: 30%; max-width: 92px; min-width: 72px; }.ingredient-jars i { width: 44px; height: 46px; }.ingredient-jars b { max-width: 100%; overflow-wrap: anywhere; font-size: 9px; }
+  .stations { display: grid; grid-template-columns: 1fr; gap: 14px; padding: 18px 14px 24px; }.brew-station { width: min(100%, 260px); height: 230px; justify-self: center; padding-inline: 14px; }.machine-top { width: calc(100% + 28px); }.ice-cream-cone { width: 68px; height: 98px; }
+  .coffee-game > footer { height: auto; min-height: 92px; grid-template-columns: 1fr; gap: 6px; padding: 10px 14px calc(10px + env(safe-area-inset-bottom)); text-align: center; }.coffee-game footer button { justify-self: center; }.current-mix { display: none; }.coffee-game footer p { margin: 0; font-size: 11px; line-height: 1.35; }
   .dialog-actions { flex-direction: column; }
 }
