@@ -101,14 +101,15 @@ button { font: inherit; cursor: pointer; }
 .order-ticket p.vanilla > i { color: #8d683d; background: #fff1d5; border: 1px solid #dec6a4; }
 .order-ticket p.strawberry > i { color: white; background: #df7793; }
 .order-ticket p.chocolate > i { color: white; background: #7b4a32; }
+.order-ticket p.sprinkles > i { color: #2f2b27; background: linear-gradient(135deg, #fff1d5 0 25%, #df7793 25% 50%, #85b7df 50% 75%, #f4c85e 75%); }
 .order-ticket p span { display: flex; gap: 7px; padding-left: 8px; color: #684231; font-size: 13px; }
 .order-ticket p.vanilla span { color: #c29458; }
-.order-ticket p.strawberry span { color: #c75d7d; }.order-ticket p.chocolate span { color: #7b4a32; }
+.order-ticket p.strawberry span { color: #c75d7d; }.order-ticket p.chocolate span { color: #7b4a32; }.order-ticket p.sprinkles span { color: #3f86b7; }
 .shelf { height: 112px; display: grid; place-items: center; background: linear-gradient(100deg, #decab0, #f3e7d4, #d8c2a7); border-bottom: 10px solid #79563f; }
 .ingredient-jars { display: flex; justify-content: center; gap: clamp(25px, 7vw, 90px); }
 .ingredient-jars button { width: 86px; display: grid; justify-items: center; color: #594b40; background: transparent; border: 0; }
 .ingredient-jars i { display: grid; place-items: center; width: 52px; height: 54px; color: #f2e8dc; background: #664433; border: 4px solid #f5ede3; border-radius: 8px 8px 15px 15px; box-shadow: 0 -6px #b99979, 0 5px 8px #513a2b44; font-style: normal; }
-.ingredient-jars i.vanilla { color: #8d683d; background: #fff1d5; }.ingredient-jars i.strawberry { background: #df7793; }.ingredient-jars i.chocolate { background: #7b4a32; }
+.ingredient-jars i.vanilla { color: #8d683d; background: #fff1d5; }.ingredient-jars i.strawberry { background: #df7793; }.ingredient-jars i.chocolate { background: #7b4a32; }.ingredient-jars i.sprinkles { color: #2f2b27; background: linear-gradient(135deg, #fff1d5 0 25%, #df7793 25% 50%, #85b7df 50% 75%, #f4c85e 75%); }
 .ingredient-jars b { margin-top: 8px; font-size: 10px; text-transform: uppercase; }.ingredient-jars small { color: #9a8878; font-size: 7px; text-transform: uppercase; }
 .stations { min-height: 295px; display: flex; justify-content: center; gap: clamp(12px, 4vw, 65px); padding: 24px 20px; }
 .brew-station { position: relative; width: min(26vw, 220px); height: 260px; display: grid; justify-items: center; align-content: start; padding: 0 15px 12px; background: linear-gradient(90deg, #353833, #51534c 55%, #30322e); border: 3px solid transparent; border-radius: 8px; box-shadow: 0 18px 22px #4b2e2138; transition: .15s; }
@@ -130,6 +131,7 @@ button { font: inherit; cursor: pointer; }
 .ice-cream-scoop i.vanilla { background: #fff2df; }
 .ice-cream-scoop i.strawberry { background: #f7a8bd; }
 .ice-cream-scoop i.chocolate { background: #7b4a32; }
+.sprinkle-topping { position: absolute; z-index: 3; right: 8px; bottom: 20px; left: 8px; height: 38px; background-image: radial-gradient(#df7793 1px, transparent 2px), radial-gradient(#85b7df 1px, transparent 2px), radial-gradient(#f4c85e 1px, transparent 2px), radial-gradient(#7b4a32 1px, transparent 2px); background-position: 0 0, 9px 8px, 18px 2px, 26px 12px; background-size: 28px 18px; pointer-events: none; }
 .ice-cream-cone .coffee-fill, .ice-cream-cone .boil-bubbles { display: none; }
 .coffee-fill { position: absolute; right: 5px; bottom: 5px; left: 5px; background: linear-gradient(#8d5a39, #59331f); border-radius: 0 0 16px 16px; transition: height .08s linear; }
 .boil-bubbles { position: absolute; right: 10px; bottom: 12px; left: 10px; height: 42px; pointer-events: none; }
@@ -137,7 +139,7 @@ button { font: inherit; cursor: pointer; }
 .boil-bubbles i:nth-child(1) { left: 8px; animation-delay: -.2s; }.boil-bubbles i:nth-child(2) { left: 26px; width: 6px; height: 6px; animation-delay: -.55s; }.boil-bubbles i:nth-child(3) { right: 7px; animation-delay: -.8s; }
 .spill { position: absolute; z-index: 2; right: -15px; bottom: -8px; left: -15px; height: 16px; background: #664129; border-radius: 50%; animation: pulse .5s infinite alternate; }
 .recipe-dots { height: 23px; display: flex; gap: 4px; align-items: center; color: #eadbd0; font-size: 8px; }
-.recipe-dots i { font-style: normal; }.recipe-dots .vanilla { color: #fff1d5; }.recipe-dots .strawberry { color: #ff9eb6; }.recipe-dots .chocolate { color: #d39a6b; }
+.recipe-dots i { font-style: normal; }.recipe-dots .vanilla { color: #fff1d5; }.recipe-dots .strawberry { color: #ff9eb6; }.recipe-dots .chocolate { color: #d39a6b; }.recipe-dots .sprinkles { color: #85b7df; }
 .brew-station button { width: 100%; padding: 9px 4px; color: white; background: #cb6842; border: 0; border-radius: 3px; font-size: 9px; font-weight: 800; letter-spacing: .12em; }
 .brew-station .serve-button { background: #4e514b; }.brew-station .serve-button.lit { color: #17321d; background: #74d189; box-shadow: 0 0 18px #67d27e; animation: pulse .35s infinite alternate; }
 .brew-station .trash-button { background: #774a3c; }
@@ -198,7 +200,7 @@ button { font: inherit; cursor: pointer; }
   .target-bar p { white-space: normal; line-height: 1.25; }
   .cafe-counter { min-height: auto; background: linear-gradient(#aa765a 0 185px, #744a35 185px 199px, #e8dac6 199px 420px, #80614b 420px 430px, #b38869 430px); }
   .ticket-rail { justify-content: flex-start; gap: 10px; min-height: 174px; overflow-x: auto; padding: 14px 12px 16px; scroll-snap-type: x mandatory; }.order-ticket { flex: 0 0 150px; width: 150px; min-height: 136px; padding: 9px; scroll-snap-align: start; }.order-ticket section { padding: 7px 2px 14px; }.order-ticket p { grid-template-columns: 24px 1fr; }.order-ticket p.vanilla > i { color: #8d683d; background: #fff6df; border-color: #d8bd91; }.order-ticket p.vanilla span { color: #d8a45f; }
-  .shelf { height: auto; min-height: 106px; padding: 14px 8px; }.ingredient-jars { width: 100%; justify-content: space-around; gap: 8px; }.ingredient-jars button { width: 30%; max-width: 92px; min-width: 72px; }.ingredient-jars i { width: 44px; height: 46px; }.ingredient-jars b { max-width: 100%; overflow-wrap: anywhere; font-size: 9px; }
+  .shelf { height: auto; min-height: 106px; padding: 14px 8px; }.ingredient-jars { width: 100%; flex-wrap: wrap; justify-content: center; gap: 10px 6px; }.ingredient-jars button { width: 23%; max-width: 92px; min-width: 68px; }.ingredient-jars i { width: 42px; height: 44px; }.ingredient-jars b { max-width: 100%; overflow-wrap: anywhere; font-size: 8px; }
   .stations { display: grid; grid-template-columns: 1fr; gap: 14px; padding: 18px 14px 24px; }.brew-station { width: min(100%, 260px); height: 230px; justify-self: center; padding-inline: 14px; }.machine-top { width: calc(100% + 28px); }.ice-cream-cone { width: 68px; height: 98px; }
   .coffee-game > footer { height: auto; min-height: 92px; grid-template-columns: 1fr; gap: 6px; padding: 10px 14px calc(10px + env(safe-area-inset-bottom)); text-align: center; }.coffee-game footer button { justify-self: center; }.current-mix { display: none; }.coffee-game footer p { margin: 0; font-size: 11px; line-height: 1.35; }
   .dialog-actions { flex-direction: column; }

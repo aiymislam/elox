@@ -1,8 +1,7 @@
-import { ingredientIcon } from '../../lib/coffeeGame'
-import type { Ingredient, Order } from '../../lib/coffeeGame'
+import { ingredientIcon, ingredients } from '../../lib/coffeeGame'
+import type { Order } from '../../lib/coffeeGame'
 
 export function OrderTicket({ order, number }: { order: Order; number: number }) {
-  const ingredients: Ingredient[] = ['vanilla', 'strawberry', 'chocolate']
   return <article className="order-ticket">
     <div><span>ORDER</span><b>#{String(number).padStart(2, '0')}</b></div>
     <section>
