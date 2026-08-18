@@ -1,5 +1,5 @@
 import type { DragEvent } from 'react'
-import { fillLevel, ingredientIcon, ingredients, scoopIngredients } from '../../lib/coffeeGame'
+import { fillLevel, ingredientIcon, ingredients, scoopIngredients, sprinkleIngredients } from '../../lib/coffeeGame'
 import type { Ingredient, Station } from '../../lib/coffeeGame'
 
 type Props = { station: Station; now: number; index: number; selected: boolean; tutorialFocus: 'mix' | 'serve' | null; onSelect: () => void; onMake: () => void; onServe: () => void; onTrash: () => void; onDropIngredient: (ingredient: Ingredient) => void }
@@ -12,7 +12,7 @@ export function BrewStation({ station, now, index, selected, tutorialFocus, onSe
   const hasIngredients = Object.values(station.recipe).some(Boolean)
   const showFinishedScoops = hasIngredients && station.status !== 'empty' && level >= .82
   const scoops = scoopIngredients.flatMap((item) => Array.from({ length: station.recipe[item] }, () => item))
-  const hasSprinkles = station.recipe.sprinkles > 0
+  const activeSprinkles = sprinkleIngredients.filter((item) => station.recipe[item] > 0)
   const dropIngredient = (event: DragEvent<HTMLElement>) => {
     event.preventDefault()
     const ingredient = event.dataTransfer.getData('ingredient')
@@ -26,7 +26,7 @@ export function BrewStation({ station, now, index, selected, tutorialFocus, onSe
     <div className="ice-cream-cone">
       {showFinishedScoops && <div className={`ice-cream-scoop scoop-count-${scoops.length}`}>
         {scoops.map((item, scoopIndex) => <i className={item} key={`${item}-${scoopIndex}`} />)}
-        {hasSprinkles && <span className="sprinkle-topping" />}
+        {activeSprinkles.map((item) => <span className={`sprinkle-topping ${item}`} key={item} />)}
       </div>}
       <div className="coffee-fill" style={{ height: `${Math.min(level, 1) * 78}%` }} />
       {hasIngredients && station.status === 'empty' && <div className="boil-bubbles"><i /><i /><i /></div>}
