@@ -1,6 +1,6 @@
 import type { DragEvent } from 'react'
 import { useEffect, useMemo, useState } from 'react'
-import { BREW_TIME, GAME_SECONDS, TARGET_ORDERS, fillLevel, ingredientIcon, ingredientName, ingredients, makeOrder, makeStation, sameRecipe, sprinkleIngredients } from '../../lib/coffeeGame'
+import { BREW_TIME, GAME_SECONDS, TARGET_ORDERS, fillLevel, ingredientIcon, ingredientName, ingredients, makeOrder, makeStation, sameRecipe, sameScoops, sprinkleIngredients } from '../../lib/coffeeGame'
 import type { Ingredient, Order, Station } from '../../lib/coffeeGame'
 import type { Language } from '../../lib/i18n'
 import { BrewStation } from './BrewStation'
@@ -28,6 +28,8 @@ const gameText = {
     language: 'Language',
     defaultMessage: 'Build an order, then start the brewer.',
     startBrew: 'Ice cream is mixing—watch the cone!',
+    addSprinkles: 'Ice cream is ready. Add the matching sprinkles, then serve.',
+    missingSprinkles: 'Add the matching sprinkles before serving.',
     noMatch: 'No ticket matches that drink. Check the recipe.',
     perfect: 'Perfect timing!',
     early: 'A little early.',
@@ -67,6 +69,8 @@ const gameText = {
     language: 'Тіл',
     defaultMessage: 'Тапсырыс құрып, содан кейін brewer-ді іске қос.',
     startBrew: 'Балмұздақ араласуда—конусты бақыла!',
+    addSprinkles: 'Балмұздақ дайын. Дұрыс посыпканы қосып, содан кейін бер.',
+    missingSprinkles: 'Берер алдында дұрыс посыпканы қос.',
     noMatch: 'Бұл сусын ешбір тапсырыспен сәйкес емес. Рецептін тексер.',
     perfect: 'Керемет уақыт!',
     early: 'Біршама ерте.',
@@ -106,6 +110,8 @@ const gameText = {
     language: 'Язык',
     defaultMessage: 'Собери заказ, затем запусти аппарат.',
     startBrew: 'Мороженое смешивается—следи за рожком!',
+    addSprinkles: 'Мороженое готово. Добавь нужную посыпку, потом подавай.',
+    missingSprinkles: 'Перед подачей добавь нужную посыпку.',
     noMatch: 'Нет заказа, подходящего под этот напиток. Проверь рецепт.',
     perfect: 'Идеальная подача!',
     early: 'Чуть раньше.',
@@ -167,7 +173,7 @@ export function CoffeeGame({ onExit, language, onLanguageChange }: Props) {
   }, [now])
 
   const startBrew = (stationIndex: number, station: Station, order: Order) => {
-    setStations((current) => current.map((item, index) => index === stationIndex ? { ...station, orderId: order.id, startedAt: Date.now(), status: 'brewing' } : item))
+    setStations((current) => current.map((item, index) => index === stationIndex ? { ...station, orderId: order.id, targetRecipe: order, startedAt: Date.now(), status: 'brewing' } : item))
     setOrders((current) => current.map((item) => item.id === order.id ? makeOrder(served + 1) : item))
     setMessage(text.startBrew)
   }
@@ -175,7 +181,11 @@ export function CoffeeGame({ onExit, language, onLanguageChange }: Props) {
     let nextStation: Station | null = null
     setSelected(stationIndex)
     setStations((current) => current.map((station, index) => {
-      if (index !== stationIndex || station.status !== 'empty') return station
+      if (index !== stationIndex) return station
+      const isSprinkle = sprinkleIngredients.includes(ingredient)
+      const readyForSprinkles = station.status === 'brewing' && fillLevel(station, now) >= .82
+      if (station.status === 'empty' && isSprinkle) return station
+      if (station.status !== 'empty' && (!isSprinkle || !readyForSprinkles)) return station
       const maxAmount = sprinkleIngredients.includes(ingredient) ? 1 : 2
       nextStation = { ...station, recipe: { ...station.recipe, [ingredient]: Math.min(maxAmount, station.recipe[ingredient] + 1) } }
       return nextStation
@@ -183,7 +193,8 @@ export function CoffeeGame({ onExit, language, onLanguageChange }: Props) {
     window.setTimeout(() => {
       const brewedStation = nextStation
       if (!brewedStation) return
-      const order = orders.find((item) => sameRecipe(item, brewedStation.recipe))
+      if (brewedStation.status !== 'empty') return
+      const order = orders.find((item) => sameScoops(item, brewedStation.recipe))
       if (order) startBrew(stationIndex, brewedStation, order)
     }, 0)
   }
@@ -195,7 +206,7 @@ export function CoffeeGame({ onExit, language, onLanguageChange }: Props) {
   const brew = (index: number) => {
     setProductMode('iceCream')
     const station = stations[index]
-    const order = orders.find((item) => sameRecipe(item, station.recipe))
+    const order = orders.find((item) => sameScoops(item, station.recipe))
     if (!order) { setMessage(text.noMatch); return }
     startBrew(index, station, order)
   }
@@ -203,6 +214,7 @@ export function CoffeeGame({ onExit, language, onLanguageChange }: Props) {
     const station = stations[index]
     const level = fillLevel(station, now)
     if (station.status !== 'brewing') return
+    if (!station.targetRecipe || !sameRecipe(station.recipe, station.targetRecipe)) { setMessage(text.missingSprinkles); return }
     const points = Math.max(250, Math.round(1000 - Math.abs(1 - level) * 2400))
     setScore((current) => current + points); setServed((current) => current + 1)
     setMessage(level >= .82 ? `${text.perfectShort}${points}` : `${text.earlyShort}${points}`); clearStation(index)
@@ -213,6 +225,9 @@ export function CoffeeGame({ onExit, language, onLanguageChange }: Props) {
     setMessage(nextMode === 'iceCream' ? text.iceCreamMode : text.coffeeMode)
   }
   const progress = useMemo(() => Math.min(100, served / TARGET_ORDERS * 100), [served])
+  useEffect(() => {
+    if (stations.some((station) => station.status === 'brewing' && fillLevel(station, now) >= .82 && station.targetRecipe && !sameRecipe(station.recipe, station.targetRecipe))) setMessage(text.addSprinkles)
+  }, [now, stations, text.addSprinkles])
   const tutorialSteps: TutorialStep[] = [
     { title: text.hintOneTitle, text: text.hintOneText, action: 'ticket' },
     { title: text.hintTwoTitle, text: text.hintTwoText, action: 'mix' },

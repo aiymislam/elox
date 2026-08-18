@@ -4,6 +4,7 @@ export type Order = Recipe & { id: string }
 export type Station = {
   recipe: Recipe
   orderId: string | null
+  targetRecipe: Recipe | null
   startedAt: number | null
   status: 'empty' | 'brewing' | 'overflow'
 }
@@ -28,8 +29,9 @@ export const makeOrder = (rarityLevel = 0): Order => {
   recipe[sprinkleIngredients[Math.min(rarityLevel, sprinkleIngredients.length - 1)]] = 1
   return { ...recipe, id: crypto.randomUUID() }
 }
-export const makeStation = (): Station => ({ recipe: { ...EMPTY_RECIPE }, orderId: null, startedAt: null, status: 'empty' })
+export const makeStation = (): Station => ({ recipe: { ...EMPTY_RECIPE }, orderId: null, targetRecipe: null, startedAt: null, status: 'empty' })
 export const sameRecipe = (one: Recipe, two: Recipe) => ingredients.every((item) => one[item] === two[item])
+export const sameScoops = (one: Recipe, two: Recipe) => scoopIngredients.every((item) => one[item] === two[item])
 export const fillLevel = (station: Station, now: number) => station.startedAt ? (now - station.startedAt) / BREW_TIME : 0
 export const ingredientIcon: Record<Ingredient, string> = { vanilla: 'V', strawberry: 'S', chocolate: 'C', sprinkles: '★', rareSprinkles: '◆', superRareSprinkles: '◇', epicSprinkles: '✹', mythicSprinkles: '✧', legendarySprinkles: '✷', ultraSprinkles: '✦' }
 export const ingredientName: Record<Ingredient, string> = { vanilla: 'Vanilla', strawberry: 'Strawberry', chocolate: 'Chocolate', sprinkles: 'Sprinkles', rareSprinkles: 'Rare', superRareSprinkles: 'Super Rare', epicSprinkles: 'Epic', mythicSprinkles: 'Mythic', legendarySprinkles: 'Legendary', ultraSprinkles: 'Ultra' }
