@@ -141,7 +141,7 @@ const gameText = {
 } satisfies Record<Language, Record<string, string>>
 
 export function CoffeeGame({ onExit, language, onLanguageChange }: Props) {
-  const [orders, setOrders] = useState<Order[]>(() => [makeOrder(), makeOrder(), makeOrder()])
+  const [orders, setOrders] = useState<Order[]>(() => [makeOrder(0), makeOrder(0), makeOrder(0)])
   const [stations, setStations] = useState<Station[]>(() => [makeStation(), makeStation(), makeStation()])
   const [selected, setSelected] = useState(0)
   const [score, setScore] = useState(0)
@@ -168,7 +168,7 @@ export function CoffeeGame({ onExit, language, onLanguageChange }: Props) {
 
   const startBrew = (stationIndex: number, station: Station, order: Order) => {
     setStations((current) => current.map((item, index) => index === stationIndex ? { ...station, orderId: order.id, startedAt: Date.now(), status: 'brewing' } : item))
-    setOrders((current) => current.map((item) => item.id === order.id ? makeOrder() : item))
+    setOrders((current) => current.map((item) => item.id === order.id ? makeOrder(served + 1) : item))
     setMessage(text.startBrew)
   }
   const addIngredient = (ingredient: Ingredient, stationIndex = selected) => {
@@ -270,7 +270,7 @@ export function CoffeeGame({ onExit, language, onLanguageChange }: Props) {
       <div className={`ticket-rail ${tutorialFocus === 'ticket' ? 'tutorial-highlight' : ''}`}>{orders.map((order, index) => <OrderTicket key={order.id} order={order} number={served + index + 1} />)}</div>
       <button className={`ice-cream-highlight ${productMode === 'iceCream' ? 'active' : ''}`} onClick={toggleProductMode}>
         <p>{productMode === 'iceCream' ? 'Ice cream mode' : 'Coffee mode'}</p>
-        <span>🍦 Vanilla · 🍓 Strawberry · 🍫 Chocolate · ★ Rare · ✦ Ultra</span>
+        <span>🍦 Vanilla · 🍓 Strawberry · 🍫 Chocolate · ★ Rare · Epic · Legendary · Ultra</span>
       </button>
       <div className="shelf"><div className="ingredient-jars">{ingredients.map((item) => <button className={tutorialFocus === 'mix' ? 'tutorial-highlight' : ''} key={item} draggable onDragStart={(event) => dragIngredient(event, item)} onClick={() => addIngredient(item)}><i className={item}>{ingredientIcon[item]}</i><b>{ingredientName[item]}</b><small>drag or tap</small></button>)}</div></div>
       <div className="stations">{stations.map((station, index) => <BrewStation key={index} station={station} now={now} index={index} selected={selected === index} tutorialFocus={tutorialFocus === 'mix' || tutorialFocus === 'serve' ? tutorialFocus : null} onSelect={() => setSelected(index)} onMake={() => brew(index)} onServe={() => serve(index)} onTrash={() => clearStation(index)} onDropIngredient={(ingredient) => addIngredient(ingredient, index)} />)}</div>
