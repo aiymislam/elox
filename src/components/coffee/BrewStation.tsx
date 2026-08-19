@@ -13,6 +13,12 @@ export function BrewStation({ station, now, index, selected, tutorialFocus, onSe
   const showFinishedScoops = hasIngredients && station.status !== 'empty' && level >= .82
   const scoops = scoopIngredients.flatMap((item) => Array.from({ length: station.recipe[item] }, () => item))
   const activeSprinkles = sprinkleIngredients.filter((item) => station.recipe[item] > 0)
+  const missingSprinkles = sprinkleIngredients.filter((item) => station.targetRecipe?.[item] && station.recipe[item] === 0)
+  const recipeHints = ingredients.flatMap((item) => {
+    const added = Array.from({ length: station.recipe[item] }, (_, count) => ({ item, key: `${item}-${count}`, missing: false }))
+    if (missingSprinkles.includes(item)) return [...added, { item, key: `${item}-needed`, missing: true }]
+    return added
+  })
   const dropIngredient = (event: DragEvent<HTMLElement>) => {
     event.preventDefault()
     const ingredient = event.dataTransfer.getData('ingredient')
@@ -32,7 +38,7 @@ export function BrewStation({ station, now, index, selected, tutorialFocus, onSe
       {hasIngredients && station.status === 'empty' && <div className="boil-bubbles"><i /><i /><i /></div>}
       {station.status === 'overflow' && <div className="spill" />}
     </div>
-    <div className="recipe-dots">{ingredients.flatMap((item) => Array.from({ length: station.recipe[item] }, (_, count) => <i className={item} key={`${item}-${count}`}>{ingredientIcon[item]}</i>))}</div>
-    {station.status === 'empty' ? <button className="brew-button" onClick={(event) => { event.stopPropagation(); onMake() }}>MAKE</button> : station.status === 'overflow' ? <button className="trash-button" onClick={(event) => { event.stopPropagation(); onTrash() }}>TOSS CONE</button> : <button className={`serve-button ${ready ? 'lit' : ''} ${serveHighlight}`} onClick={(event) => { event.stopPropagation(); onServe() }}>{ready ? 'SERVE!' : 'MAKING'}</button>}
+    <div className="recipe-dots">{recipeHints.map((hint) => <i className={`${hint.item} ${hint.missing ? 'needed' : ''}`} key={hint.key}>{ingredientIcon[hint.item]}</i>)}</div>
+    {station.status === 'empty' ? <button className="brew-button" onClick={(event) => { event.stopPropagation(); onMake() }}>MAKE</button> : station.status === 'overflow' ? <button className="trash-button" onClick={(event) => { event.stopPropagation(); onTrash() }}>TOSS CONE</button> : <button className={`serve-button ${ready ? 'lit' : ''} ${serveHighlight}`} onClick={(event) => { event.stopPropagation(); onServe() }}>{ready && missingSprinkles.length === 0 ? 'SERVE!' : ready ? 'ADD TOPPING' : 'MAKING'}</button>}
   </article>
 }

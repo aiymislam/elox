@@ -146,6 +146,7 @@ button { font: inherit; cursor: pointer; }
 .spill { position: absolute; z-index: 2; right: -15px; bottom: -8px; left: -15px; height: 16px; background: #664129; border-radius: 50%; animation: pulse .5s infinite alternate; }
 .recipe-dots { height: 23px; display: flex; gap: 4px; align-items: center; color: #eadbd0; font-size: 8px; }
 .recipe-dots i { font-style: normal; }.recipe-dots .vanilla { color: #fff1d5; }.recipe-dots .strawberry { color: #ff9eb6; }.recipe-dots .chocolate { color: #d39a6b; }.recipe-dots .sprinkles { color: #85b7df; }.recipe-dots .superRareSprinkles { color: #2dd4bf; }.recipe-dots .mythicSprinkles { color: #60a5fa; }.recipe-dots .legendarySprinkles { color: #f59e0b; }
+.recipe-dots .needed { width: 17px; height: 17px; display: grid; place-items: center; border: 1px dashed currentColor; border-radius: 50%; animation: pulse .55s infinite alternate; }
 .brew-station button { width: 100%; padding: 9px 4px; color: white; background: #cb6842; border: 0; border-radius: 3px; font-size: 9px; font-weight: 800; letter-spacing: .12em; }
 .brew-station .serve-button { background: #4e514b; }.brew-station .serve-button.lit { color: #17321d; background: #74d189; box-shadow: 0 0 18px #67d27e; animation: pulse .35s infinite alternate; }
 .brew-station .trash-button { background: #774a3c; }
