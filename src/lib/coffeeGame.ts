@@ -1,4 +1,4 @@
-export type Ingredient = 'vanilla' | 'strawberry' | 'chocolate' | 'sprinkles' | 'rareSprinkles' | 'superRareSprinkles' | 'epicSprinkles' | 'mythicSprinkles' | 'legendarySprinkles' | 'ultraSprinkles'
+export type Ingredient = 'vanilla' | 'strawberry' | 'chocolate' | 'sprinkles' | 'superRareSprinkles' | 'mythicSprinkles' | 'legendarySprinkles'
 export type Recipe = Record<Ingredient, number>
 export type Order = Recipe & { id: string }
 export type Station = {
@@ -9,10 +9,10 @@ export type Station = {
   status: 'empty' | 'brewing' | 'overflow'
 }
 
-export const ingredients: Ingredient[] = ['vanilla', 'strawberry', 'chocolate', 'sprinkles', 'rareSprinkles', 'superRareSprinkles', 'epicSprinkles', 'mythicSprinkles', 'legendarySprinkles', 'ultraSprinkles']
+export const ingredients: Ingredient[] = ['vanilla', 'strawberry', 'chocolate', 'sprinkles', 'superRareSprinkles', 'mythicSprinkles', 'legendarySprinkles']
 export const scoopIngredients: Ingredient[] = ['vanilla', 'strawberry', 'chocolate']
-export const sprinkleIngredients: Ingredient[] = ['sprinkles', 'rareSprinkles', 'superRareSprinkles', 'epicSprinkles', 'mythicSprinkles', 'legendarySprinkles', 'ultraSprinkles']
-export const EMPTY_RECIPE: Recipe = { vanilla: 0, strawberry: 0, chocolate: 0, sprinkles: 0, rareSprinkles: 0, superRareSprinkles: 0, epicSprinkles: 0, mythicSprinkles: 0, legendarySprinkles: 0, ultraSprinkles: 0 }
+export const sprinkleIngredients: Ingredient[] = ['sprinkles', 'superRareSprinkles', 'mythicSprinkles', 'legendarySprinkles']
+export const EMPTY_RECIPE: Recipe = { vanilla: 0, strawberry: 0, chocolate: 0, sprinkles: 0, superRareSprinkles: 0, mythicSprinkles: 0, legendarySprinkles: 0 }
 export const GAME_SECONDS = 120
 export const TARGET_ORDERS = 15
 export const BREW_TIME = 5200
@@ -33,5 +33,5 @@ export const makeStation = (): Station => ({ recipe: { ...EMPTY_RECIPE }, orderI
 export const sameRecipe = (one: Recipe, two: Recipe) => ingredients.every((item) => one[item] === two[item])
 export const sameScoops = (one: Recipe, two: Recipe) => scoopIngredients.every((item) => one[item] === two[item])
 export const fillLevel = (station: Station, now: number) => station.startedAt ? (now - station.startedAt) / BREW_TIME : 0
-export const ingredientIcon: Record<Ingredient, string> = { vanilla: 'V', strawberry: 'S', chocolate: 'C', sprinkles: '★', rareSprinkles: '◆', superRareSprinkles: '◇', epicSprinkles: '✹', mythicSprinkles: '✧', legendarySprinkles: '✷', ultraSprinkles: '✦' }
-export const ingredientName: Record<Ingredient, string> = { vanilla: 'Vanilla', strawberry: 'Strawberry', chocolate: 'Chocolate', sprinkles: 'Sprinkles', rareSprinkles: 'Rare', superRareSprinkles: 'Super Rare', epicSprinkles: 'Epic', mythicSprinkles: 'Mythic', legendarySprinkles: 'Legendary', ultraSprinkles: 'Ultra' }
+export const ingredientIcon: Record<Ingredient, string> = { vanilla: 'V', strawberry: 'S', chocolate: 'C', sprinkles: '★', superRareSprinkles: '◇', mythicSprinkles: '✧', legendarySprinkles: '✷' }
+export const ingredientName: Record<Ingredient, string> = { vanilla: 'Vanilla', strawberry: 'Strawberry', chocolate: 'Chocolate', sprinkles: 'Sprinkles', superRareSprinkles: 'Super Rare', mythicSprinkles: 'Mythic', legendarySprinkles: 'Legendary' }
